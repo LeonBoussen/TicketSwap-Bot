@@ -1,7 +1,12 @@
 
-# Project Title
+# TicketFuck
 
-TicketFuck! ticketswap sniper bot
+A ticketswap sniper bot that keeps scanning for tickets on sold out event.
+When a ticket is found it will detect and automaticly buy the ticket!
+
+Use rotating proxies and user-agents to prefent getting blocked for botting
+
+development progress: prototype
 
 
 ## Features
