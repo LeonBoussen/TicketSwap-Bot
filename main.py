@@ -1,11 +1,15 @@
 #imports
 import time
+import os
 from os import system as cmd
+import win32gui
+import win32con
+import win32console
 
 # variables
 use_proxies = False
 use_userAgents = False
-proxy_list = {}
+proxy_list = []
 agent_list = []
 
 # print title
@@ -21,9 +25,21 @@ def title_ascii():
     print("##   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░  ░▒▓█▓▒░          ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░      ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░  ##")
     print("##                                                                                                                                                        ##")    
     print("############################################################################################################################################################")
+<<<<<<< Updated upstream
     
 # print a list of settings where the functions is called
 def print_settings(): 
+=======
+
+def maximize_console():
+    # TO DO
+    # i did not get it working so not doing it now >:|
+    return
+
+
+
+def print_settings():
+>>>>>>> Stashed changes
     global use_proxies
     global use_userAgents
     global proxy_list
@@ -44,9 +60,51 @@ def print_settings():
             u += 1
         print(f"Agents loaded: {u}")
     
+<<<<<<< Updated upstream
     
 # load the main menu widget
 def mainmenu(): 
+=======
+# checks is proxies.txt is in current directory and other wise ask use for path to proxy list
+def get_proxy_path():
+    global use_proxies
+    global proxy_list
+    # get current directory and add proxies.txt to directory path
+    dir = os.path.dirname(os.path.abspath(__file__))
+    proxy_dir = os.path.join(dir, "proxies.txt")
+
+    # check if path exists
+    if os.path.isfile(proxy_dir):
+        with open(proxy_dir, "r") as proxy_file:
+            proxy_list = proxy_file.readlines()
+    else:
+        # make loop so when the users give a invalid input the users can try again
+        # and to profent the program from crashing
+        while True:
+            print("not file called proxies.txt was found in the current directory")
+            print("please import your own proxy file")
+            proxy_dir = input("Drag and drop proxy file here: ")
+
+            # check if given input is a file and if true add to proxy list
+            if os.path.isfile(proxy_dir):
+                with open(proxy_dir, "r") as proxy_file:
+                    proxy_list = proxy_file.readlines()
+                break
+            
+            # if user can get a proxy file they can type exit to leave the loop and disable use proxies
+            elif proxy_dir == "exit":
+                use_proxies = False
+                break
+
+            # if path is not file print error and exit text
+            else:
+                cmd("cls")
+                print("Dont have a proxy file?")
+                print("type exit to go back")
+                print("")
+
+def mainmenu(): # load the main menu widget
+>>>>>>> Stashed changes
     cmd("title TicketSwap 360 SSSniper! - main menu")
     cmd("cls")
     print("")
@@ -103,6 +161,7 @@ def mainmenu():
                     # If not ask for path to proxy file.
                     elif up == 1:
                         use_proxies = True
+                        get_proxy_path()
                         break
 
                     # if the users doesnt want to use proxies it will set use proxies to false,
@@ -127,6 +186,10 @@ def mainmenu():
 def start_botting(url):
     print(url)
     cmd("pause")
+
+
+
+#program start
 
 while True:
     mainmenu()
