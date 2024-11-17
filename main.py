@@ -25,11 +25,6 @@ def title_ascii():
     print("##   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░  ░▒▓█▓▒░          ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░      ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░  ##")
     print("##                                                                                                                                                        ##")    
     print("############################################################################################################################################################")
-<<<<<<< Updated upstream
-    
-# print a list of settings where the functions is called
-def print_settings(): 
-=======
 
 def maximize_console():
     # TO DO
@@ -39,7 +34,6 @@ def maximize_console():
 
 
 def print_settings():
->>>>>>> Stashed changes
     global use_proxies
     global use_userAgents
     global proxy_list
@@ -60,11 +54,7 @@ def print_settings():
             u += 1
         print(f"Agents loaded: {u}")
     
-<<<<<<< Updated upstream
     
-# load the main menu widget
-def mainmenu(): 
-=======
 # checks is proxies.txt is in current directory and other wise ask use for path to proxy list
 def get_proxy_path():
     global use_proxies
@@ -104,7 +94,6 @@ def get_proxy_path():
                 print("")
 
 def mainmenu(): # load the main menu widget
->>>>>>> Stashed changes
     cmd("title TicketSwap 360 SSSniper! - main menu")
     cmd("cls")
     print("")
