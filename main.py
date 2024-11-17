@@ -2,12 +2,14 @@
 import time
 from os import system as cmd
 
+# variables
 use_proxies = False
 use_userAgents = False
 proxy_list = {}
 agent_list = []
 
-def title_ascii(): # print title
+# print title
+def title_ascii(): 
     print("############################################################################################################################################################")
     print("##                                                                                                                                                        ##")
     print("##░▒▓████████▓▒░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░▒▓████████▓▒░       ░▒▓███████▓▒░▒▓███████▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓███████▓▒░  ##")
@@ -20,18 +22,22 @@ def title_ascii(): # print title
     print("##                                                                                                                                                        ##")    
     print("############################################################################################################################################################")
     
-def print_settings():
+# print a list of settings where the functions is called
+def print_settings(): 
     global use_proxies
     global use_userAgents
     global proxy_list
     global agent_list
 
     print(f"Proxies: {use_proxies}\nUser-Agents: {use_userAgents}")
+
+    # if use proxies is true it will be added to the list of displayed settings
     if use_proxies == True:
         p = 0
         for i in proxy_list:
             p += 1
         print(f"Proxies loaded: {p}")
+    # if use useragents is true it will be added to the list of displayed settings
     if use_userAgents == True:
         u = 0
         for i in agent_list:
@@ -39,8 +45,8 @@ def print_settings():
         print(f"Agents loaded: {u}")
     
     
-
-def mainmenu(): # load the main menu widget
+# load the main menu widget
+def mainmenu(): 
     cmd("title TicketSwap 360 SSSniper! - main menu")
     cmd("cls")
     print("")
@@ -61,28 +67,46 @@ def mainmenu(): # load the main menu widget
     print("############################################################################################################################################################")
     print("")
 
-    #try except voor keuze input check voor outbounts / invalid invoer
+    # try except voor keuze input check voor outbounts / invalid invoer
     try:
         keuze = int(input("Keuze: "))
+
+        # keuze input validatie check
         if keuze <= 0 or keuze >= 6:
             raise Exception("Invalid input!")
         else:
+            # start / begin botting process
             if keuze == 1:
                 print("Start Snipe")
                 start_botting()
+            
+            # proxy settings
             elif keuze == 2:
+                # inport global vars in scope
                 global use_proxies
                 global proxy_list
+
+                # proxy keuze menu loop tot er een juiste input word gegeven
                 while True:
                     cmd("cls")
-                    print("Load proxies")
+                    print("proxy settings!")
                     up = int(input("Do you want to use proxies? ( 1 - yes | 2 - no )"))
+
+                    # input validatie for up input
                     if up <= 0 or up >= 3:
                         print("Invalid input")
                         cmd("pause")
+
+                    # set use proxies setting true
+                    # TO DO import proxy list, first check if 
+                    # proxies.txt is in current directory,
+                    # If not ask for path to proxy file.
                     elif up == 1:
                         use_proxies = True
                         break
+
+                    # if the users doesnt want to use proxies it will set use proxies to false,
+                    # and will warm the user of the danger of not using a proxy
                     elif up == 2:
                         use_proxies = False
                         print("Not using proxies will get you temp banned on the website")
