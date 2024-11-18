@@ -2,9 +2,7 @@
 import time
 import os
 from os import system as cmd
-import win32gui
-import win32con
-import win32console
+import requests
 
 # variables
 use_proxies = False
@@ -25,6 +23,10 @@ def title_ascii():
     print("##   ░▒▓█▓▒░   ░▒▓█▓▒░░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓████████▓▒░  ░▒▓█▓▒░          ░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░      ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░  ##")
     print("##                                                                                                                                                        ##")    
     print("############################################################################################################################################################")
+
+#clears screen
+def clear():
+    cmd("cls")
 
 def maximize_console():
     # TO DO
@@ -88,18 +90,15 @@ def get_proxy_path():
 
             # if path is not file print error and exit text
             else:
-                cmd("cls")
+                clear()
                 print("Dont have a proxy file?")
                 print("type exit to go back")
                 print("")
 
 def mainmenu(): # load the main menu widget
     cmd("title TicketSwap 360 SSSniper! - main menu")
-    cmd("cls")
+    clear()
     print("")
-    title_ascii()
-    print("")
-    cmd("cls")
     title_ascii()
     print("")
     print_settings()
@@ -135,7 +134,7 @@ def mainmenu(): # load the main menu widget
 
                 # proxy keuze menu loop tot er een juiste input word gegeven
                 while True:
-                    cmd("cls")
+                    clear()
                     print("proxy settings!")
                     up = int(input("Do you want to use proxies? ( 1 - yes | 2 - no ) : "))
 
@@ -172,9 +171,34 @@ def mainmenu(): # load the main menu widget
     except Exception as error:
         print(error)
 
-def start_botting(url):
-    print(url)
-    cmd("pause")
+def start_botting():
+    while True:
+        try:
+            clear()
+            title_ascii()
+            print("")
+            print("Type exit to go back")
+            print("")
+            url = input("Enter url of the ticketpage: ")
+            if url == "exit":
+                break
+            respons = requests.get(url)
+            if respons.status_code != 200:
+                badresponse = str(respons.status_code) + " " + str(respons)
+                raise Exception(badresponse)
+            elif respons.status_code == 200:
+                print("Response good")
+                html = respons.text
+                print(html)
+            else:
+                print("Un unforseen error has appeerd >:(")
+                cmd("pause")
+                break
+
+            cmd("pause")
+        except Exception as error:
+            print(error)
+            cmd("pause")
 
 
 
