@@ -81,7 +81,7 @@ def get_proxy_path():
                     proxy_list = proxy_file.readlines()
                 break
             
-            # if user can get a proxy file they can type exit to leave the loop and disable use proxies
+            # if user can tget a proxy file they can type exit to leave the loop and disable use proxies
             elif proxy_dir == "exit":
                 use_proxies = False
                 break
@@ -106,8 +106,8 @@ def mainmenu(): # load the main menu widget
     print("############################################################################################################################################################")
     print("")
     print("1 - function 1 (Start sniping)")
-    print("2 - function 2 (load proxies)")
-    print("3 - function 3 (User-agent config)")
+    print("2 - function 2 (proxy settings)")
+    print("3 - function 3 (User-agent settings)")
     print("4 - config (Maximale prijs per ticket voor snipen / mogelijk meerdere tickets snipen wanneer mogelijk)")
     print("5 - exit")
     print("")
@@ -137,7 +137,7 @@ def mainmenu(): # load the main menu widget
                 while True:
                     cmd("cls")
                     print("proxy settings!")
-                    up = int(input("Do you want to use proxies? ( 1 - yes | 2 - no )"))
+                    up = int(input("Do you want to use proxies? ( 1 - yes | 2 - no ) : "))
 
                     # input validatie for up input
                     if up <= 0 or up >= 3:
