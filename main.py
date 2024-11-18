@@ -9,6 +9,7 @@ use_proxies = False
 use_userAgents = False
 proxy_list = []
 agent_list = []
+userAgentTemp = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0 Safari/537.36","Accept-Language": "en-US,en;q=0.9",}
 
 # print title
 def title_ascii(): 
@@ -172,6 +173,7 @@ def mainmenu(): # load the main menu widget
         print(error)
 
 def start_botting():
+    global userAgentTemp
     while True:
         try:
             clear()
@@ -182,10 +184,14 @@ def start_botting():
             url = input("Enter url of the ticketpage: ")
             if url == "exit":
                 break
-            respons = requests.get(url)
+
+            # make a request to the website and check if the website is responding correctly
+            respons = requests.get(url, headers=userAgentTemp)
             if respons.status_code != 200:
                 badresponse = str(respons.status_code) + " " + str(respons)
                 raise Exception(badresponse)
+            
+            # if the response is as expected get the html code from the request
             elif respons.status_code == 200:
                 print("Response good")
                 html = respons.text
