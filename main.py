@@ -1,8 +1,13 @@
 #imports
-import time
 import os
+import random
 from os import system as cmd
-import requests
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 # variables
 use_proxies = False
@@ -160,8 +165,6 @@ def mainmenu(): # load the main menu widget
                         print("Not using proxies will get you temp banned on the website")
                         cmd("pause")
                         break
-                
-                        
                         
             elif keuze == 3:
                 print("configure user-agents")
@@ -174,6 +177,12 @@ def mainmenu(): # load the main menu widget
 
 def start_botting():
     global userAgentTemp
+
+    global use_proxies
+    global proxy_list
+    global use_userAgents
+    global agent_list
+
     while True:
         try:
             clear()
@@ -184,24 +193,64 @@ def start_botting():
             url = input("Enter url of the ticketpage: ")
             if url == "exit":
                 break
-
-            # make a request to the website and check if the website is responding correctly
-            respons = requests.get(url, headers=userAgentTemp)
-            if respons.status_code != 200:
-                badresponse = str(respons.status_code) + " " + str(respons)
-                raise Exception(badresponse)
-            
-            # if the response is as expected get the html code from the request
-            elif respons.status_code == 200:
-                print("Response good")
-                html = respons.text
-                print(html)
             else:
-                print("Un unforseen error has appeerd >:(")
-                cmd("pause")
-                break
+                while True:
+                    options = Options()
+                    # make a request to the website and get html code and check for tickets
+                    
+                    # if the user want to use proxies it here gets a random proxy from list and addes it in de driver settings
+                    if use_proxies or use_userAgents:
+                        if use_proxies:
+                            proxy = random.choice(proxy_list)
+                            options.add_argument(f"--proxy-server={proxy}")
+                            print(f"Using proxy {proxy}")
+                    
+                    # TO DO now only using temp user agent
+                    options.add_argument(f"user-agent={userAgentTemp}")
 
-            cmd("pause")
+                    # create a web browser instance to load website
+                    # loading this way will also load dynamic content like tickets
+                    try:
+                        driver = webdriver.Chrome(options=options)
+                        driver.get(url)
+
+                        # try to wait for page to fully load to ensure the ticket links will be load
+                        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CLASS_NAME, "css-3b4ilh")))
+                        
+
+                    except Exception as error:
+                        print(error)
+                        print("line 222")
+
+                        #remove bad / not working proxy from list
+                        if use_proxies:
+                            proxy_list.remove(proxy)
+                            print(f"removed {proxy} from proxy list {len(proxy_list) + 1} proxies left")
+
+                        cmd("pause")
+                        
+                    
+                    # get html from page source and parse it using beautifulsoup 
+                    # so we can search through the code for the class containing the ticket url
+                    html = driver.page_source
+                    s = BeautifulSoup(html, 'html.parser')
+                    print(s, "line 228")
+                    cmd("pause")
+                    ticket_class = s.find_all("a", class_="css-3b4ilh e1uk6tfj3")
+                    for i in ticket_class:
+                        a = 0
+                        a += 1
+                        print(a)
+                    cmd("pause")
+                    if ticket_class:
+                        ticket_urls = [url.get('href') for url in ticket_class]
+                        for url in ticket_urls:
+                            print(url)
+                        cmd("pause")
+                    else:
+                        print("No ticket")
+                        cmd("pause")
+            
         except Exception as error:
             print(error)
             cmd("pause")
